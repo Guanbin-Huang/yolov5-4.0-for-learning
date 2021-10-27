@@ -1,0 +1,21 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "train.py",
+            "args": ["--data", "data/voc.yaml",
+                    "--cfg", "models/yolov5s_for_voc2007.yaml",
+                    "--weights","weights/yolov5s.pt",
+                    "--batch-size", "16", 
+                    "--epochs", "200"],
+            "console": "integratedTerminal"
+        }
+    ]
+}
+
