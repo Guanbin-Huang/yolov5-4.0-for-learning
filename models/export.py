@@ -53,15 +53,15 @@ if __name__ == '__main__':
     model.model[-1].export = True  # set Detect() layer export=True
     y = model(img)  # dry run
 
-    # TorchScript export
-    try:
-        print('\nStarting TorchScript export with torch %s...' % torch.__version__)
-        f = opt.weights.replace('.pt', '.torchscript.pt')  # filename
-        ts = torch.jit.trace(model, img)
-        ts.save(f)
-        print('TorchScript export success, saved as %s' % f)
-    except Exception as e:
-        print('TorchScript export failure: %s' % e)
+    # # TorchScript export
+    # try:
+    #     print('\nStarting TorchScript export with torch %s...' % torch.__version__)
+    #     f = opt.weights.replace('.pt', '.torchscript.pt')  # filename
+    #     ts = torch.jit.trace(model, img)
+    #     ts.save(f)
+    #     print('TorchScript export success, saved as %s' % f)
+    # except Exception as e:
+    #     print('TorchScript export failure: %s' % e)
 
     # ONNX export
     try:
@@ -81,17 +81,17 @@ if __name__ == '__main__':
         print('ONNX export failure: %s' % e)
 
     # CoreML export
-    try:
-        import coremltools as ct
+    # try:
+    #     import coremltools as ct
 
-        print('\nStarting CoreML export with coremltools %s...' % ct.__version__)
-        # convert model from torchscript and apply pixel scaling as per detect.py
-        model = ct.convert(ts, inputs=[ct.ImageType(name='image', shape=img.shape, scale=1 / 255.0, bias=[0, 0, 0])])
-        f = opt.weights.replace('.pt', '.mlmodel')  # filename
-        model.save(f)
-        print('CoreML export success, saved as %s' % f)
-    except Exception as e:
-        print('CoreML export failure: %s' % e)
+    #     print('\nStarting CoreML export with coremltools %s...' % ct.__version__)
+    #     # convert model from torchscript and apply pixel scaling as per detect.py
+    #     model = ct.convert(ts, inputs=[ct.ImageType(name='image', shape=img.shape, scale=1 / 255.0, bias=[0, 0, 0])])
+    #     f = opt.weights.replace('.pt', '.mlmodel')  # filename
+    #     model.save(f)
+    #     print('CoreML export success, saved as %s' % f)
+    # except Exception as e:
+    #     print('CoreML export failure: %s' % e)
 
     # Finish
     print('\nExport complete (%.2fs). Visualize with https://github.com/lutzroeder/netron.' % (time.time() - t))
