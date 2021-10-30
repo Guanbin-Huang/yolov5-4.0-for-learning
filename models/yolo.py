@@ -39,14 +39,14 @@ class Detect(nn.Module):
     def forward(self, x):
         # x = x.copy()  # for profiling
         z = []  # inference output
-        self.training |= self.export
+        self.training |= self.export 
         for i in range(self.nl):
-            x[i] = self.m[i](x[i])  # conv
-            bs, _, ny, nx = x[i].shape  # x(bs,255,20,20) to x(bs,3,20,20,85)
+            x[i] = self.m[i](x[i])  # conv different layer chooses different conv to get its own prediction
+            bs, _, ny, nx = x[i].shape  # coco: x(bs,255,20,20) to x(bs,3,20,20,85) # voc: (bs, 75[25x3] , 32, 32) -> (bs, 3, 25, )
             x[i] = x[i].view(bs, self.na, self.no, ny, nx).permute(0, 1, 3, 4, 2).contiguous()
 
             if not self.training:  # inference
-                if self.grid[i].shape[2:4] != x[i].shape[2:4]:
+                if self.grid[i].shape[2:4] != x[i].shape[2:4]: #! ensuring the grid size equals the size of feature map
                     self.grid[i] = self._make_grid(nx, ny).to(x[i].device)
 
                 y = x[i].sigmoid()

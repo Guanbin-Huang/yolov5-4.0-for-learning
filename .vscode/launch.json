@@ -9,11 +9,20 @@
             "type": "python",
             "request": "launch",
             "program": "train.py",
+            // "program": "detect.py",
+            // train
             "args": ["--data", "data/voc.yaml",
                     "--cfg", "models/yolov5s_for_voc2007.yaml",
                     "--weights","weights/yolov5s.pt",
                     "--batch-size", "16", 
                     "--epochs", "200"],
+            // inference
+            // "args": ["--weights", "./weights/yolov5s.pt",
+            //         "--img", "640",
+            //         "--conf", "0.25", 
+            //         "--source", "data/images/"
+            // ],
+            
             "console": "integratedTerminal"
         }
     ]

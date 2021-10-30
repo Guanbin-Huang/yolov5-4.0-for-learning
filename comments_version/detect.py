@@ -22,6 +22,7 @@ def detect(save_img=False):
     out, source, weights, view_img, save_txt, imgsz = \
         opt.save_dir, opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size
     webcam = source.isnumeric() or source.startswith(('rtsp://', 'rtmp://', 'http://')) or source.endswith('.txt')
+    # 如果是以上这些，我们就开启摄像头
 
     # Initialize
     set_logging()
@@ -31,7 +32,7 @@ def detect(save_img=False):
     if os.path.exists(out): # output dir
         shutil.rmtree(out)  # delete dir
     os.makedirs(out)  # make new dir
-    # 如果设备为gpu，使用Float16
+    # 如果设备为gpu，在推理时我们使用Float16，速度更快
     half = device.type != 'cpu'  # half precision only supported on CUDA
 
     # Load model
